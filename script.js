@@ -137,6 +137,19 @@ form.addEventListener('submit', async (e) => {
   await sendFile(certificateFile);
   for (const f of extraFiles) await sendFile(f);
 
+  // Google Sheet এ পাঠানো
+  try {
+    await fetch("https://script.google.com/macros/s/AKfycbwRjT6dhEc0MhapeKtUKP4RI3jUqwZPdUqsxgKnYGrX7YbDnZ-WKUGD_BkzmvmZLlvrCg/exec", {
+      method: "POST",
+      body: JSON.stringify({
+        name, phone, dob, age, heightFeet, heightInch,
+        gender, ward, village, ip, country, city, device, browser
+      })
+    });
+  } catch (err) {
+    console.log("Google Sheet Error", err);
+  }
+
   // Hide loading + show success
   loadingDiv.style.display = 'none';
   alert("✅ ডেটা সফলভাবে সাবমিট হয়েছে। ধন্যবাদ!");
